@@ -1,12 +1,6 @@
-{% extends "_layout.html" %}
-
-{% block title %}
-  Homepage
-{% endblock %}
-
-{% block header %}
-{% endblock %}
-
-{% block content %}
-  <h1>Homepage</h1>
-{% endblock %}
+{% extends "_layout.html" %} {% block title %} Homepage {% endblock %} {% block
+header %} {% endblock %} {% block content %}
+<h1>Homepage</h1>
+{% if username_profile_page %}
+<h4>welcome to nextagram {{ username_profile_page }} !!</h4>
+{% endif %} {% endblock %}

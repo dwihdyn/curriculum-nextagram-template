@@ -1,1 +1,51 @@
-<h1>Users#new</h1>
+<!-- new user (signup) -->
+
+{% extends "_layout.html" %} {% block content %}
+<h1>Sign up as new user!</h1>
+
+<form action="{{ url_for('users.create') }}" method="post">
+  <!-- CSRF Token to protect from CSRF attack -->
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="form-group">
+    <label for="username">Enter your new username : </label>
+    <input
+      class="form-control"
+      type="text"
+      name="username"
+      placeholder="username...."
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Enter your email : </label>
+    <input
+      class="form-control"
+      type="email"
+      name="email"
+      placeholder="email...."
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Enter your password : </label>
+    <input
+      class="form-control"
+      type="password"
+      name="password"
+      placeholder="has a number, uppercase, lowercase, symbol, 6 to 20 long"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="confPassword">confirm password : </label>
+    <input
+      class="form-control"
+      type="password"
+      name="confPassword"
+      placeholder="repeat password...."
+    />
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{% endblock %}

@@ -16,8 +16,9 @@ class BaseModel(pw.Model):
             self.updated_at = datetime.datetime.now()
             return super(BaseModel, self).save(*args, **kwargs)
         else:
-            return 0
+            return self.errors
 
+    # global validation to ALL tables
     def validate(self):
         print(
             f"Warning validation method not implemented for {str(type(self))}")

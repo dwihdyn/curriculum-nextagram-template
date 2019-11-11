@@ -1,0 +1,31 @@
+<!-- new session (login form) -->
+
+{% extends '_layout.html' %} {% block content %}
+<h1>Login</h1>
+
+<form action="{{ url_for('sessions.create') }}" method="post">
+  <!-- CSRF Token to protect from CSRF attack -->
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <div class="form-group">
+    <label for="username">Enter your new username : </label>
+    <input
+      class="form-control"
+      type="text"
+      name="username"
+      placeholder="username...."
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Enter your password : </label>
+    <input
+      class="form-control"
+      type="password"
+      name="password"
+      placeholder="shhh...."
+    />
+  </div>
+
+  <button class="btn btn-primary" type="submit">Login</button>
+</form>
+{% endblock %}
