@@ -1,34 +1,23 @@
 # all databases
 
-import re
+# import re
 from models.base_model import BaseModel
 import peewee as pw
-from werkzeug.security import generate_password_hash
+# from werkzeug.security import generate_password_hash
+from flask_login import UserMixin
+
+# for hybrid property -> image uploading to combine the image name + S3_LOCATION address
+from playhouse.hybrid import hybrid_property
+from config import S3_LOCATION
 
 
-class UserCredential(BaseModel):
+class UserCredential(UserMixin, BaseModel):
     name = pw.CharField(unique=False)
     email = pw.CharField()
     password = pw.CharField()
+    profile_image = pw.CharField(default='1573637551default-pic.jpg')
 
-# uncomment validation when done production
-    # dont do it in basemodel, because different class (UserCredential vs existingUser) need different validate rule
-    def validate(self):
-        # regex
-        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
-        compile_regex = re.compile(reg)
-        match_pass_regex = re.search(compile_regex, self.password)
-
-        if not match_pass_regex:
-            self.errors.append('''
-            password must have :
-            1) a number
-            2) an uppercase & lowercase
-            3) a special symbol (!,@,#,..)
-            4) length 6 to 20 char
-            ''')
-        if not self.password == self.confPassword:
-            self.errors.append('password and confirm password dont match')
-
-        if len(self.errors) == 0:
-            self.password = generate_password_hash(self.password)
+    # below is hybrid/shortcut version of `profile_image_url = pw.Charfield()` and enter both names in it
+    @hybrid_property
+    def profile_image_url(self):
+        return S3_LOCATION + self.profile_image

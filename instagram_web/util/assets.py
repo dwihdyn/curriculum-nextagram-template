@@ -8,12 +8,14 @@ bundles = {
         'js/vendor/bootstrap-4.1.3.js',
         'js/custom.js',
         filters='jsmin',
-        output='gen/home.%(version)s.js'),
+        output='gen/home.%(version)s.js'),  # %(version)s solve cache issue & to update js/css to latest update
 
     'home_css': Bundle(
         'css/vendor/bootstrap-4.1.3.css',
-        'css/custom.css',
-        filters='cssmin',
+        'css/custom.scss',
+        filters='libsass',
+        depends=['css/*.scss'],
+        # filters='cssmin',
         output='gen/home.%(version)s.css'),
 
     # 'admin_js': Bundle(

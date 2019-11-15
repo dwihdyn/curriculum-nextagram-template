@@ -1,4 +1,12 @@
+# config.py for any external site configuration (aws, login thru fb & gmail)
+
 import os
+
+
+S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
+S3_KEY = os.environ.get("S3_ACCESS_KEY")
+S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
+S3_LOCATION = f"https://{S3_BUCKET}.s3.amazonaws.com/"
 
 
 class Config(object):
@@ -12,6 +20,8 @@ class Config(object):
 class ProductionConfig(Config):
     DEBUG = False
     ASSETS_DEBUG = False
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 
 
 class StagingConfig(Config):
@@ -24,6 +34,9 @@ class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     ASSETS_DEBUG = False
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+
 
 class TestingConfig(Config):
     TESTING = True

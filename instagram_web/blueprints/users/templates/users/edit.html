@@ -1,0 +1,59 @@
+{% extends '_layout.html'%} {% block title %} Settings | {% endblock %} {% block
+content %}
+
+<h1 class="text-center">{{ current_user.name }}'s settings</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h4 class="text-center">Upload/Change your profile picture</h4>
+    <form
+      action="{{ url_for('users.profile_image', id=current_user.id) }}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      <div class="form-group">
+        <input class="form-control-file" type="file" name="profile_image" />
+      </div>
+
+      <button class="btn btn-outline-primary" type="submit">Upload</button>
+    </form>
+  </div>
+</div>
+
+<h4 class="text-center">Edit your information</h4>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form
+      action="{{ url_for('users.update',id=current_user.id) }}"
+      method="POST"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      <div class="form-group">
+        <label for="new_username">Enter your brand new username : </label>
+        <input
+          class="form-control"
+          type="text"
+          name="new_username"
+          placeholder="new username....."
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="new_email">Enter your brand new email : </label>
+        <input
+          type="email"
+          class="form-control"
+          name="new_email"
+          placeholder="new email....."
+        />
+      </div>
+
+      <button class="btn btn-outline-primary" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,6 +1,39 @@
-{% extends "_layout.html" %} {% block title %} Homepage {% endblock %} {% block
-header %} {% endblock %} {% block content %}
+{% extends "_layout.html" %} {% block title %} {{ current_user.name }} |{%
+endblock %} {% block content %}
+
 <h1>Homepage</h1>
-{% if username_profile_page %}
-<h4>welcome to nextagram {{ username_profile_page }} !!</h4>
+
+{% if current_user.is_authenticated %}
+
+<h3>Hi {{ current_user.name }} !! who do you want to stalk today ?</h3>
+<h3>your email is : {{ current_user.email }}</h3>
+<img
+  src="{{ current_user.profile_image_url }}"
+  alt="{{ current_user.name }} profile pic"
+/>
+<form action="{{ url_for('images.new') }}">
+  <button type="submit">upload your picture now!</button>
+</form>
+<h5>Your feed</h5>
+
+<div class="col-md-9">
+  <div class="d-flex flex-wrap">
+    {% for i in qry %}
+    <h5>{{i.name}}</h5>
+    {% for j in i.images %}
+
+    <img src="{{ j.full_image_url }}" alt="user feed" />
+
+    {% endfor %} {% endfor %}
+  </div>
+</div>
+
+{% else %}
+
+<h3>
+  Welcome to Nextagram! Proceed to
+  <a href="{{ url_for('sessions.new') }}">login</a> /
+  <a href="{{ url_for('users.new') }}">sign up</a> now!
+</h3>
+
 {% endif %} {% endblock %}

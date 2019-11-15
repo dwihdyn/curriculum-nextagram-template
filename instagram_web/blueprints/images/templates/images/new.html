@@ -1,0 +1,32 @@
+{% extends "_layout.html" %} {% block title %} {{ current_user.name }} |{%
+endblock %} {% block content %}
+<h1 class="text-center">Upload your new post !</h1>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form
+      action="{{ url_for('images.create') }}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+      <div class="form-group">
+        <input type="file" name="new_image" />
+      </div>
+
+      <div class="form-group">
+        <label for="image_caption">Caption : </label>
+        <input
+          type="text"
+          name="image_caption"
+          class="form-control"
+          placeholder="example : me and the boys chillin"
+        />
+      </div>
+      <button class="btn btn-outline-primary" type="submit">Post</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-<!-- new session (login form) -->
+<!-- session -> for login/logout purposes ONLY -->
 
 {% extends '_layout.html' %} {% block content %}
 <h1>Login</h1>
@@ -26,6 +26,10 @@
     />
   </div>
 
-  <button class="btn btn-primary" type="submit">Login</button>
+  <button class="btn btn-outline-primary" type="submit">Login</button>
 </form>
+
+<a href="{{ url_for('sessions.google_login') }}" class="btn btn-primary w-100">
+  login thru gmail
+</a>
 {% endblock %}
