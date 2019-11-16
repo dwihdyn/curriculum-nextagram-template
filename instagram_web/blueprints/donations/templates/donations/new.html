@@ -1,0 +1,26 @@
+{% extends "_layout.html" %} {% block title %} Donation |{% endblock %} {% block
+content %}
+
+<h1 class="text-center">Make a donation!</h1>
+<div class="container">
+  <form
+    id="donation_form"
+    action="{{ url_for('donations.create'), image_id=image.id }}"
+    method="POST"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+    <div class="form-group">
+      <label for="donation_amount">Amount to donate : </label>
+      <input
+        type="text"
+        name="donation_amount"
+        placeholder="Enter the amount to
+      donate"
+        class="form-control"
+      />
+    </div>
+  </form>
+</div>
+
+{% endblock %}
