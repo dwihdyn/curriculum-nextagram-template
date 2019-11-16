@@ -5,10 +5,11 @@ content %}
 <div class="container">
   <form
     id="donation_form"
-    action="{{ url_for('donations.create'), image_id=image.id }}"
+    action="{{ url_for('donations.create', image_id=image.id) }}"
     method="POST"
   >
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="payment_method_nonce" id="payment_nonce" />
 
     <div class="form-group">
       <label for="donation_amount">Amount to donate : </label>

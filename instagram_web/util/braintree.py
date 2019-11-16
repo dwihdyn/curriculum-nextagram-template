@@ -13,5 +13,23 @@ gateway = braintree.BraintreeGateway(
 )
 
 
+# donation token for every different picture
 def generate_client_token():
-    pass
+    return gateway.client_token.generate()
+
+
+# details of the donations | nonce is a secure payment method
+def complete_transaction(nonce, amount):
+    result = gateway.transaction.sale({
+        "amount": amount,
+        "payment_method_nonce": nonce,
+        "options": {
+            "submit_for_settlement": True
+        }
+    })
+
+    # if payment failed, return False, else True
+    if not result.is_success:
+        return False
+
+    return True

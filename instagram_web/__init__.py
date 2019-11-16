@@ -7,7 +7,7 @@ from instagram_web.blueprints.donations.views import donations_blueprint
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
 
-# used to solve `n+1 query`, and pass python code to home.html as `qry`
+# used to solve `n+1 query`, and pass python code to home.html as `all_users`
 from models.image import ImageFeed
 from models.user import UserCredential
 
@@ -44,4 +44,4 @@ def internal_server_error(e):
 def home():
     # return render_template('home.html', img_feed=ImageFeed)
     # `img_feed` is to call out users images with 2 queries only (and not `n users + 1` query)
-    return render_template('home.html', qry=UserCredential.select().prefetch(ImageFeed))
+    return render_template('home.html', all_users=UserCredential.select().prefetch(ImageFeed))
