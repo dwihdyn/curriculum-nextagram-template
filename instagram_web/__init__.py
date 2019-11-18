@@ -42,6 +42,5 @@ def internal_server_error(e):
 
 @app.route("/")
 def home():
-    # return render_template('home.html', img_feed=ImageFeed)
     # `img_feed` is to call out users images with 2 queries only (and not `n users + 1` query)
     return render_template('home.html', all_users=UserCredential.select().prefetch(ImageFeed))

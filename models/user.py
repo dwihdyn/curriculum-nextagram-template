@@ -12,10 +12,10 @@ from config import S3_LOCATION
 
 
 class UserCredential(UserMixin, BaseModel):
-    name = pw.CharField(unique=False)
+    username = pw.CharField(unique=False)  # name
     email = pw.CharField()
     password = pw.CharField()
-    profile_image = pw.CharField(default='1573637551default-pic.jpg')
+    profile_image = pw.CharField(default='1574049991default-pic.jpg')
 
     # below is hybrid/shortcut version of `profile_image_url = pw.Charfield()` and enter both names in it
     @hybrid_property

@@ -50,7 +50,7 @@ def create():
         return redirect(url_for('images.new'))
 
     new_feed = ImageFeed(
-        logged_in_user=current_user.id,
+        user_id=current_user.id,
         picture_name=file.filename,
         caption=enterred_caption
     )

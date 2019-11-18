@@ -29,7 +29,7 @@ def new():
 @users_blueprint.route('/', methods=['POST'])
 def create():
     new_usr = UserCredential(
-        name=request.form['username'], email=request.form['email'], password=request.form['password'], confPassword=request.form['confPassword'])
+        username=request.form['username'], email=request.form['email'], password=request.form['password'], confPassword=request.form['confPassword'])
 
     if new_usr.password == new_usr.confPassword:
 
@@ -92,7 +92,6 @@ def update(id):
     ongoing_user.email = request.form.get('new_email')
     if ongoing_user.save():
         flash('Information successfully updated', 'text-success')
-        # return redirect(url_for('users.edit', id=current_user.id))
         return redirect(url_for('home'))
     else:
         for i in ongoing_user.errors:

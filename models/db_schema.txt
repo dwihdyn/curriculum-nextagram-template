@@ -43,7 +43,7 @@ load XML at https://ondras.zarovi.cz/sql/demo/
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="name" null="1" autoincrement="0">
+<row name="username" null="1" autoincrement="0">
 <datatype>CHAR</datatype>
 <default>NULL</default></row>
 <row name="email" null="1" autoincrement="0">
@@ -57,7 +57,8 @@ load XML at https://ondras.zarovi.cz/sql/demo/
 <default>NULL</default></row>
 <row name="profile_image_url" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
-<default>NULL</default></row>
+<default>NULL</default><comment>hybrid_property</comment>
+</row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -66,10 +67,9 @@ load XML at https://ondras.zarovi.cz/sql/demo/
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
-<row name="logged_in_user_id" null="1" autoincrement="0">
+<row name="user_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="UserCredential" row="id" />
-<comment>will be rename to `user_id`</comment>
 </row>
 <row name="picture_name" null="1" autoincrement="0">
 <datatype>CHAR</datatype>
@@ -77,9 +77,9 @@ load XML at https://ondras.zarovi.cz/sql/demo/
 <row name="caption" null="1" autoincrement="0">
 <datatype>CHAR</datatype>
 <default>NULL</default></row>
-<row name="full_image_url" null="1" autoincrement="0">
+<row name="full_newpost_url" null="1" autoincrement="0">
 <datatype>CHAR</datatype>
-<default>NULL</default><comment>will be rename to `full_post_url`</comment>
+<default>NULL</default><comment>hybrid property</comment>
 </row>
 <key type="PRIMARY" name="">
 <part>id</part>

@@ -22,7 +22,7 @@ def new():
 def create():
     enterred_username = request.form.get('username')
     enterred_password = request.form.get('password')
-    user_check = UserCredential.get_or_none(name=enterred_username)
+    user_check = UserCredential.get_or_none(username=enterred_username)
     # breakpoint()
     if user_check:
         pass_check = check_password_hash(
@@ -40,19 +40,11 @@ def create():
         flash('User does not exist', 'text-danger')
         return render_template('sessions/new.html')
 
-    # return redirect(url_for('home'))
-
-
-# @sessions_blueprint.route('/<user_name>')
-# def show(user_name):
-#     return render_template("home.html", username_profile_page=user_name)
-
 
 # logout is to DESTROY the current session
 @sessions_blueprint.route('/delete')  # methods=['POST']
 @login_required   # upon loggin out, need to make sure that user HAS to login first, hence `login_required` from `flask-login` package is needed
 def destroy():
-    # breakpoint()
     logout_user()
     flash('You have successfully logged out', 'text-success')
     return redirect(url_for('sessions.new'))

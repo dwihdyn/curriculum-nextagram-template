@@ -19,14 +19,16 @@ endblock %} {% block content %}
 <div class="col-md-9">
   <div class="d-flex flex-wrap">
     {% for each_user in all_users %}
-    <h5>{{each_user.name}}</h5>
+    <h3><strong>{{each_user.username}}</strong></h3>
+    <br />
     {% for each_image in each_user.images_feed %}
 
-    <img src="{{ each_image.full_image_url }}" alt="user feed" />
+    <img src="{{ each_image.full_newpost_url }}" alt="user feed" />
     <form action="{{ url_for('donations.new', image_id=each_image.id) }}">
+      <p>{{ each_image.caption }}</p>
       <button class="btn btn-primary">Donate</button>
     </form>
-
+    <br />
     {% endfor %} {% endfor %}
   </div>
 </div>

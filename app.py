@@ -46,4 +46,5 @@ def _db_close(exc):
 # login setup | load all of the user database using peewee method. and pull that one user.id out to be shown in homepage
 @login_manager.user_loader
 def load_user(selected_user_id):
-    return UserCredential.get(UserCredential.id == selected_user_id)
+    # if logged in user exist, return user_id , else return none and automatically return to homepage logged out
+    return UserCredential.get_or_none(UserCredential.id == selected_user_id)

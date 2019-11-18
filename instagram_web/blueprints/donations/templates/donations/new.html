@@ -9,19 +9,45 @@ content %}
     method="POST"
   >
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-    <input type="hidden" name="payment_method_nonce" id="payment_nonce" />
 
     <div class="form-group">
       <label for="donation_amount">Amount to donate : </label>
       <input
         type="text"
         name="donation_amount"
-        placeholder="Enter the amount to
-      donate"
+        placeholder="Enter the amount to donate"
         class="form-control"
       />
     </div>
   </form>
 </div>
 
+<!-- 'send donation' button-->
+<div id="dropin-container"></div>
+<button
+  id="submit-button "
+  class="btn btn-outline-primary
+"
+>
+  Submit Donation
+</button>
+
+<!-- action to make the payment happen -->
+<script>
+  const button = document.querySelector("#submit-button");
+
+  braintree.dropin.create(
+    {
+      authorization: "{{ client_token }}",
+      container: "#dropin-container"
+    },
+    function(createErr, instance) {
+      button.addEventListener("click", function() {
+        instance.requestPaymentMethod(function(err, payload) {
+          // Submit payload.nonce to your server
+        });
+      });
+    }
+  );
+</script>
 {% endblock %}

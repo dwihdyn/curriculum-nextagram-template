@@ -8,11 +8,11 @@ from config import S3_LOCATION
 
 
 class ImageFeed(BaseModel):
-    logged_in_user = pw.ForeignKeyField(
-        UserCredential, backref="images_feed")  # change logged_in_user -> user_id
+    user_id = pw.ForeignKeyField(
+        UserCredential, backref="images_feed")  # logged_in_user
     picture_name = pw.CharField(null=False)
     caption = pw.CharField(null=False)
 
-    @hybrid_property
-    def full_image_url(self):
+    @hybrid_property  # full_image_url
+    def full_newpost_url(self):
         return S3_LOCATION + self.picture_name
