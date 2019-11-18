@@ -1,14 +1,15 @@
+# basic setup
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import current_user, login_required
-from models.user import *
+from models.user import UserCredential
 
-# upload image to aws & hybrid property -> image uploading to combine the image name + S3_LOCATION address
+# aws & hybrid property setup
 from instagram_web.util.helpers import upload_file_to_s3, unique_filename
 from werkzeug.utils import secure_filename
 from config import S3_BUCKET, S3_LOCATION
 from playhouse.hybrid import hybrid_property, hybrid_method
 
-# regex password
+# regex password setup
 import re
 from werkzeug.security import generate_password_hash
 
@@ -18,14 +19,14 @@ users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
 
-# == SIGNUP ==
-# take user to enter signup data
+
+# take user to sign up page
 @users_blueprint.route('/new', methods=['GET'])
 def new():
     return render_template('users/new.html')
 
 
-# once user type their data & press submit, go here (backend setup)
+# password verification & save new user data to `UserCredential` database
 @users_blueprint.route('/', methods=['POST'])
 def create():
     new_usr = UserCredential(
@@ -66,12 +67,19 @@ def create():
         return render_template('users/new.html')
 
 
-# from session login, take user to here
+# show selected user profile page
 @users_blueprint.route('/<username>', methods=["GET"])
+@login_required
 def show(username):
-    return render_template('home.html', username=username)
+    selected_user = UserCredential.get_or_none(
+        UserCredential.username == username)
+    if not selected_user:
+        flash(f"User with username {username} does not exist!", 'text-warning')
+        return redirect(url_for('home'))
 
+    return render_template('users/show.html', username=selected_user)
 
+# =======================================================================================
 @users_blueprint.route('/', methods=["GET"])
 def index():
     return "USERS"

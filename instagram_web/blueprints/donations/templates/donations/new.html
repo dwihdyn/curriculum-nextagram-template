@@ -1,6 +1,9 @@
 {% extends "_layout.html" %} {% block title %} Donation |{% endblock %} {% block
 content %}
 
+<!-- import braintree -->
+<script src="https://js.braintreegateway.com/web/dropin/1.20.4/js/dropin.min.js"></script>
+
 <h1 class="text-center">Make a donation!</h1>
 <div class="container">
   <form
@@ -9,6 +12,7 @@ content %}
     method="POST"
   >
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <input type="hidden" name="payment_method_nonce" id="nonceForNow" />
 
     <div class="form-group">
       <label for="donation_amount">Amount to donate : </label>
@@ -19,32 +23,43 @@ content %}
         class="form-control"
       />
     </div>
+    <!-- 'send donation' button-->
+    <div id="dropin-container"></div>
+    <button
+      id="submit-button"
+      class="btn btn-outline-primary
+    "
+    >
+      Submit Donation
+    </button>
   </form>
 </div>
-
-<!-- 'send donation' button-->
-<div id="dropin-container"></div>
-<button
-  id="submit-button "
-  class="btn btn-outline-primary
-"
->
-  Submit Donation
-</button>
 
 <!-- action to make the payment happen -->
 <script>
   const button = document.querySelector("#submit-button");
+  const storeNonce = document.querySelector("#nonceForNow");
+  const form = document.getElementById("donation_form");
 
   braintree.dropin.create(
     {
       authorization: "{{ client_token }}",
       container: "#dropin-container"
     },
+
     function(createErr, instance) {
-      button.addEventListener("click", function() {
+      form.addEventListener("submit", function(e) {
+        // preventDefault from page to be refreshed when the credit card data submitted. server need time to get the braintree token first before submitted
+        e.preventDefault();
+        // disable submit button once the button pressed ONCE
+        button.disabled = true;
+
         instance.requestPaymentMethod(function(err, payload) {
           // Submit payload.nonce to your server
+          console.log(payload.nonce);
+          // use form to get user nonce, and send it from our frontend to backend views.py
+          storeNonce.value = payload.nonce;
+          form.submit(); // submit the whole form
         });
       });
     }

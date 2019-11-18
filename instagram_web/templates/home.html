@@ -7,38 +7,63 @@ endblock %} {% block content %}
 
 <h3>Hi {{ current_user.name }} !! who do you want to stalk today ?</h3>
 <h3>your email is : {{ current_user.email }}</h3>
+
 <img
   src="{{ current_user.profile_image_url }}"
   alt="{{ current_user.name }} profile pic"
 />
+
 <form action="{{ url_for('images.new') }}">
   <button type="submit">upload your picture now!</button>
 </form>
-<h5>Your feed</h5>
 
-<div class="col-md-9">
-  <div class="d-flex flex-wrap">
-    {% for each_user in all_users %}
-    <h3><strong>{{each_user.username}}</strong></h3>
-    <br />
-    {% for each_image in each_user.images_feed %}
 
-    <img src="{{ each_image.full_newpost_url }}" alt="user feed" />
-    <form action="{{ url_for('donations.new', image_id=each_image.id) }}">
-      <p>{{ each_image.caption }}</p>
-      <button class="btn btn-primary">Donate</button>
-    </form>
-    <br />
-    {% endfor %} {% endfor %}
-  </div>
+
+
+<h2><strong>Your feed</strong></h2>
+
+<div class="container">
+
+  {% for each_user in all_users %}
+  
+    <div class="col md-3">
+        <img src="{{  each_user.profile_image_url  }}" alt="user profile picture" class="card-img-top"/>
+        <a href="{{ url_for('users.show', username=each_user.username) }}">
+          <h3><strong>{{each_user.username}}</strong></h3>
+        </a>
+    </div>
+        
+    <div class="col-md-9"></div>
+        {% for each_image in each_user.images_feed %}
+
+        <img src="{{ each_image.full_newpost_url }}" alt="user feed" />
+        <form action="{{ url_for('donations.new', image_id=each_image.id) }}">
+          <p>{{ each_image.caption }}</p>
+          <button class="btn btn-primary">Donate</button>
+        </form>
+    </div>
+        
+        {% endfor %} {% endfor %}
+
+
 </div>
 
-{% else %}
+  {% else %}
 
-<h3>
-  Welcome to Nextagram! Proceed to
-  <a href="{{ url_for('sessions.new') }}">login</a> /
-  <a href="{{ url_for('users.new') }}">sign up</a> now!
-</h3>
 
-{% endif %} {% endblock %}
+
+
+
+
+
+
+
+
+  <h3>
+    Welcome to Nextagram! Proceed to
+    <a href="{{ url_for('sessions.new') }}">login</a> /
+    <a href="{{ url_for('users.new') }}">sign up</a> now!
+  </h3>
+
+  {% endif %} {% endblock %}
+

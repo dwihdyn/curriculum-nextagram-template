@@ -6,9 +6,9 @@ from config import BT_MERCHANT_ID, BT_PUBLIC_KEY, BT_SECRET_KEY
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
         braintree.Environment.Sandbox,
-        merchant_id="BT_MERCHANT_ID",
-        public_key="BT_PUBLIC_KEY",
-        private_key="BT_SECRET_KEY"
+        merchant_id=BT_MERCHANT_ID,
+        public_key=BT_PUBLIC_KEY,
+        private_key=BT_SECRET_KEY
     )
 )
 
@@ -27,6 +27,8 @@ def complete_transaction(nonce, amount):
             "submit_for_settlement": True
         }
     })
+
+    # breakpoint()
 
     # if payment failed, return False, else True
     if not result.is_success:
