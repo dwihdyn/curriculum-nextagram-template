@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, url_for, redirect, flash
 from flask_login import current_user, login_required
 from models.user import UserCredential
 
+
 # aws & hybrid property setup
 from instagram_web.util.helpers import upload_file_to_s3, unique_filename
 from werkzeug.utils import secure_filename
@@ -68,16 +69,18 @@ def create():
 
 
 # show selected user profile page
-@users_blueprint.route('/<username>', methods=["GET"])
+@users_blueprint.route('/<user_detail>', methods=["GET"])
 @login_required
-def show(username):
+def show(user_detail):
+    # selected_user return the details of current user (username, email, password, profile pic)
     selected_user = UserCredential.get_or_none(
-        UserCredential.username == username)
+        UserCredential.username == user_detail)
     if not selected_user:
-        flash(f"User with username {username} does not exist!", 'text-warning')
+        flash(
+            f"User with username {user_detail} does not exist!", 'text-warning')
         return redirect(url_for('home'))
 
-    return render_template('users/show.html', username=selected_user)
+    return render_template('users/show.html', user_detail=selected_user)
 
 # =======================================================================================
 @users_blueprint.route('/', methods=["GET"])

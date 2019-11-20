@@ -1,3 +1,43 @@
-{% extends "_layout.html" %} {% block title%} {{ current_user.username }}
-profile | {% endblock%} {% block content %} heloooooooooooooooooooooooooo{%
-endblock %}
+{% extends "_layout.html" %} {% block title%} {{ user_detail.username }} profile
+| {% endblock%} {% block content %}
+
+<div class="container-fluid">
+  <div class="row mb-5">
+    <div class="col-sm-3">
+      <img
+        src="{{ user_detail.profile_image_url }}"
+        alt="{{ user_detail.username }} profile pic"
+        class="img-fluid"
+      />
+    </div>
+
+    <div class="col-sm-6">
+      <h3>@{{ user_detail.username }}</h3>
+      <h3>mail : {{ user_detail.email }}</h3>
+      <form action="{{ url_for('images.new') }}">
+        <button type="submit">Upload new image</button>
+      </form>
+    </div>
+  </div>
+
+  <h3 class="font-weight-bold">Your posts</h3>
+  <div class="row">
+    {% for each_img in user_detail.images_feed %}
+    <div class="col-sm-4 mb-2">
+      <img
+        src="{{ each_img.full_newpost_url }}"
+        alt="user uploaded pic"
+        class="img-fluid"
+        style="max-height: 500px;"
+      />
+      <p>{{ each_img.caption }}</p>
+
+      <form action="{{ url_for('donations.new', image_id=each_img.id) }}">
+        <button class="btn btn-primary">Donate</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
